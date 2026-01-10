@@ -44,7 +44,9 @@
         }
         .section-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; color: var(--text-main); }
         .section-title span { margin-right: 8px; font-size: 18px; }
+        
         .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        
         input[type="radio"] { display: none; }
         .option-label {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -61,8 +63,8 @@
     </style>
 </head>
 <body>
-    <h1>Setup Esame</h1>
-    <p class="subtitle">Personalizza la tua simulazione</p>
+    <h1>CompTIA Security+</h1>
+    <p class="subtitle">Setup Simulatore</p>
 
     <div class="section">
         <div class="section-title"><span>📚</span> Quante domande?</div>
@@ -70,7 +72,12 @@
             <label><input type="radio" name="questions" value="10" checked><div class="option-label">10<span class="option-desc">Veloce</span></div></label>
             <label><input type="radio" name="questions" value="20"><div class="option-label">20<span class="option-desc">Standard</span></div></label>
             <label><input type="radio" name="questions" value="50"><div class="option-label">50<span class="option-desc">Hard</span></div></label>
-            <label><input type="radio" name="questions" value="all"><div class="option-label">Tutte<span class="option-desc">Maratona</span></div></label>
+            <label><input type="radio" name="questions" value="90"><div class="option-label">90<span class="option-desc">Esame Reale</span></div></label>
+            
+            <label style="grid-column: span 2;">
+                <input type="radio" name="questions" value="all">
+                <div class="option-label">Tutte<span class="option-desc">Modalità Maratona</span></div>
+            </label>
         </div>
     </div>
 
