@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurazione Esame</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #10b981;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p.subtitle { text-align: center; color: var(--text-sub); margin-top: 0; font-size: 14px; margin-bottom: 25px; }
+        .section {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+        }
+        .section-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; color: var(--text-main); }
+        .section-title span { margin-right: 8px; font-size: 18px; }
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        input[type="radio"] { display: none; }
+        .option-label {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-color: #0f172a; border: 2px solid #334155; border-radius: 12px;
+            padding: 12px; cursor: pointer; transition: all 0.2s ease;
+            font-weight: 500; font-size: 15px; color: var(--text-sub);
+        }
+        input[type="radio"]:checked + .option-label {
+            background-color: rgba(59, 130, 246, 0.15); border-color: var(--accent);
+            color: var(--accent); box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); font-weight: 700;
+        }
+        .option-desc { font-size: 11px; margin-top: 4px; opacity: 0.7; font-weight: normal; }
+        .spacer { height: 80px; }
+    </style>
+</head>
+<body>
+    <h1>Setup Esame</h1>
+    <p class="subtitle">Personalizza la tua simulazione</p>
+
+    <div class="section">
+        <div class="section-title"><span>📚</span> Quante domande?</div>
+        <div class="options-grid">
+            <label><input type="radio" name="questions" value="10" checked><div class="option-label">10<span class="option-desc">Veloce</span></div></label>
+            <label><input type="radio" name="questions" value="20"><div class="option-label">20<span class="option-desc">Standard</span></div></label>
+            <label><input type="radio" name="questions" value="50"><div class="option-label">50<span class="option-desc">Hard</span></div></label>
+            <label><input type="radio" name="questions" value="all"><div class="option-label">Tutte<span class="option-desc">Maratona</span></div></label>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span>⏱️</span> Timer (minuti)</div>
+        <div class="options-grid">
+            <label><input type="radio" name="timer" value="0" checked><div class="option-label">NO<span class="option-desc">Relax</span></div></label>
+            <label><input type="radio" name="timer" value="30"><div class="option-label">30 min<span class="option-desc">Focus</span></div></label>
+            <label><input type="radio" name="timer" value="60"><div class="option-label">60 min<span class="option-desc">Esame</span></div></label>
+            <label><input type="radio" name="timer" value="90"><div class="option-label">90 min<span class="option-desc">Reale</span></div></label>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span>🎓</span> Modalità Studio</div>
+        <div class="options-grid" style="grid-template-columns: 1fr;">
+            <label><input type="radio" name="feedback" value="feed_end" checked>
+                <div class="option-label" style="flex-direction: row; justify-content: space-between; padding: 15px;">
+                    <span>🙈 Simulazione</span><span class="option-desc">Correzione finale</span>
+                </div>
+            </label>
+            <label><input type="radio" name="feedback" value="feed_now">
+                <div class="option-label" style="flex-direction: row; justify-content: space-between; padding: 15px;">
+                    <span>⚡ Tutor AI</span><span class="option-desc">Correzione immediata</span>
+                </div>
+            </label>
+        </div>
+    </div>
+    <div class="spacer"></div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.MainButton.setText("🚀 INIZIA IL TEST");
+        tg.MainButton.show();
+        tg.MainButton.setParams({ color: '#3b82f6', text_color: '#ffffff' });
+
+        tg.MainButton.onClick(function() {
+            const q = document.querySelector('input[name="questions"]:checked').value;
+            const t = document.querySelector('input[name="timer"]:checked').value;
+            const f = document.querySelector('input[name="feedback"]:checked').value;
+            const data = { num: q, timer: parseInt(t), feedback: f };
+            tg.sendData(JSON.stringify(data));
+        });
+    </script>
+</body>
+</html>
