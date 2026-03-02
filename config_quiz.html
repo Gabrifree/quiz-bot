@@ -3,125 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurazione Esame</title>
+    <title>Configura Test</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-sub: #94a3b8;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --success: #10b981;
-        }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 5px;
-            font-weight: 700;
-            background: linear-gradient(90deg, #60a5fa, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        p.subtitle { text-align: center; color: var(--text-sub); margin-top: 0; font-size: 14px; margin-bottom: 25px; }
-        .section {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            border: 1px solid #334155;
-        }
-        .section-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; color: var(--text-main); }
-        .section-title span { margin-right: 8px; font-size: 18px; }
-        
-        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        
-        input[type="radio"] { display: none; }
-        .option-label {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background-color: #0f172a; border: 2px solid #334155; border-radius: 12px;
-            padding: 12px; cursor: pointer; transition: all 0.2s ease;
-            font-weight: 500; font-size: 15px; color: var(--text-sub);
-        }
-        input[type="radio"]:checked + .option-label {
-            background-color: rgba(59, 130, 246, 0.15); border-color: var(--accent);
-            color: var(--accent); box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); font-weight: 700;
-        }
-        .option-desc { font-size: 11px; margin-top: 4px; opacity: 0.7; font-weight: normal; }
-        .spacer { height: 80px; }
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: var(--tg-theme-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); }
+        label { font-weight: bold; display: block; margin-top: 15px; }
+        select, button { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
+        button { background-color: var(--tg-theme-button-color, #3390ec); color: var(--tg-theme-button-text-color, #ffffff); font-weight: bold; margin-top: 25px; border: none; cursor: pointer; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <h1>CompTIA Security+</h1>
-    <p class="subtitle">Setup Simulatore</p>
 
-    <div class="section">
-        <div class="section-title"><span>📚</span> Quante domande?</div>
-        <div class="options-grid">
-            <label><input type="radio" name="questions" value="10" checked><div class="option-label">10<span class="option-desc">Veloce</span></div></label>
-            <label><input type="radio" name="questions" value="20"><div class="option-label">20<span class="option-desc">Standard</span></div></label>
-            <label><input type="radio" name="questions" value="50"><div class="option-label">50<span class="option-desc">Hard</span></div></label>
-            <label><input type="radio" name="questions" value="90"><div class="option-label">90<span class="option-desc">Esame Reale</span></div></label>
-            
-            <label style="grid-column: span 2;">
-                <input type="radio" name="questions" value="all">
-                <div class="option-label">Tutte<span class="option-desc">Modalità Maratona</span></div>
-            </label>
-        </div>
+    <h2>⚙️ Setup Simulazione</h2>
+
+    <label>📚 Seleziona Database:</label>
+    <select id="db_type" onchange="toggleChapters()">
+        <option value="standard">Database Standard</option>
+        <option value="comptia">🇮🇹 Domande Ita CompTIA</option>
+    </select>
+
+    <div id="chapter_div" class="hidden">
+        <label>📖 Seleziona Capitolo:</label>
+        <select id="chapter">
+            <option value="all">Tutti i capitoli (Mix)</option>
+            <option value="1">Cap 1 - Il professionista della sicurezza, oggi</option>
+            <option value="2">Cap 2 - Panorama delle minacce alla sicurezza</option>
+            <option value="3">Cap 3 - Codice malevolo</option>
+            <option value="4">Cap 4 - Ingegneria sociale e attacchi alle password</option>
+            <option value="5">Cap 5 - Valutazione e test della sicurezza</option>
+            <option value="6">Cap 6 - Sicurezza delle applicazioni</option>
+            <option value="7">Cap 7 - Crittografia e PKI</option>
+            <option value="8">Cap 8 - Gestione identità e accessi</option>
+            <option value="9">Cap 9 - Resilienza e sicurezza fisica</option>
+            <option value="10">Cap 10 - Sicurezza cloud e virtualizzazione</option>
+            <option value="11">Cap 11 - Sicurezza degli endpoint</option>
+            <option value="12">Cap 12 - Sicurezza della rete</option>
+            <option value="13">Cap 13 - Sicurezza wireless e mobile</option>
+            <option value="14">Cap 14 - Monitoraggio e risposta agli incidenti</option>
+            <option value="15">Cap 15 - Analisi forense digitale</option>
+            <option value="16">Cap 16 - Governance e conformità della sicurezza</option>
+            <option value="17">Cap 17 - Gestione dei rischi e privacy</option>
+        </select>
     </div>
 
-    <div class="section">
-        <div class="section-title"><span>⏱️</span> Timer (minuti)</div>
-        <div class="options-grid">
-            <label><input type="radio" name="timer" value="0" checked><div class="option-label">NO<span class="option-desc">Relax</span></div></label>
-            <label><input type="radio" name="timer" value="30"><div class="option-label">30 min<span class="option-desc">Focus</span></div></label>
-            <label><input type="radio" name="timer" value="60"><div class="option-label">60 min<span class="option-desc">Esame</span></div></label>
-            <label><input type="radio" name="timer" value="90"><div class="option-label">90 min<span class="option-desc">Reale</span></div></label>
-        </div>
-    </div>
+    <label>🔢 Numero Domande:</label>
+    <select id="num">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="90">90 (Esame Completo)</option>
+        <option value="all">Tutte</option>
+    </select>
 
-    <div class="section">
-        <div class="section-title"><span>🎓</span> Modalità Studio</div>
-        <div class="options-grid" style="grid-template-columns: 1fr;">
-            <label><input type="radio" name="feedback" value="feed_end" checked>
-                <div class="option-label" style="flex-direction: row; justify-content: space-between; padding: 15px;">
-                    <span>🙈 Simulazione</span><span class="option-desc">Correzione finale</span>
-                </div>
-            </label>
-            <label><input type="radio" name="feedback" value="feed_now">
-                <div class="option-label" style="flex-direction: row; justify-content: space-between; padding: 15px;">
-                    <span>⚡ Tutor AI</span><span class="option-desc">Correzione immediata</span>
-                </div>
-            </label>
-        </div>
-    </div>
-    <div class="spacer"></div>
+    <label>🎯 Modalità:</label>
+    <select id="feedback">
+        <option value="feed_now">⚡ Studio Guidato (Correzione immediata)</option>
+        <option value="exam">🙈 Simulazione Esame (Risultato alla fine)</option>
+    </select>
+
+    <label>⏱️ Timer:</label>
+    <select id="timer">
+        <option value="false">Senza Timer</option>
+        <option value="true">Con Timer (90 min max)</option>
+    </select>
+
+    <button onclick="sendData()">🚀 AVVIA TEST</button>
 
     <script>
-        const tg = window.Telegram.WebApp;
+        let tg = window.Telegram.WebApp;
         tg.expand();
-        tg.MainButton.setText("🚀 INIZIA IL TEST");
-        tg.MainButton.show();
-        tg.MainButton.setParams({ color: '#3b82f6', text_color: '#ffffff' });
 
-        tg.MainButton.onClick(function() {
-            const q = document.querySelector('input[name="questions"]:checked').value;
-            const t = document.querySelector('input[name="timer"]:checked').value;
-            const f = document.querySelector('input[name="feedback"]:checked').value;
-            const data = { num: q, timer: parseInt(t), feedback: f };
+        function toggleChapters() {
+            let db = document.getElementById("db_type").value;
+            let chapterDiv = document.getElementById("chapter_div");
+            if (db === "comptia") {
+                chapterDiv.classList.remove("hidden");
+            } else {
+                chapterDiv.classList.add("hidden");
+            }
+        }
+
+        function sendData() {
+            let data = {
+                db_type: document.getElementById("db_type").value,
+                chapter: document.getElementById("chapter").value,
+                num: document.getElementById("num").value,
+                feedback: document.getElementById("feedback").value,
+                timer: document.getElementById("timer").value === "true"
+            };
             tg.sendData(JSON.stringify(data));
-        });
+        }
     </script>
 </body>
 </html>
