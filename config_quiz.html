@@ -9,6 +9,7 @@
         body { font-family: Arial, sans-serif; padding: 20px; background-color: var(--tg-theme-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); }
         label { font-weight: bold; display: block; margin-top: 15px; }
         select, button { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
+        select { background-color: var(--tg-theme-secondary-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); }
         button { background-color: var(--tg-theme-button-color, #3390ec); color: var(--tg-theme-button-text-color, #ffffff); font-weight: bold; margin-top: 25px; border: none; cursor: pointer; }
         .hidden { display: none; }
     </style>
@@ -19,9 +20,10 @@
 
     <label>📚 Seleziona Database:</label>
     <select id="db_type" onchange="toggleChapters()">
-        <option value="standard">Database Standard</option>
-        <option value="comptia">🇮🇹 Domande Ita CompTIA</option>
-        <option value="custom">Allenamento Specifico</option>
+        <option value="standard">📚 Set principale (EN)</option>
+        <option value="custom">📄 Set recente (EN)</option>
+        <option value="comptia">🇮🇹 Set libro (IT)</option>
+        <option value="ripasso">🔁 Ripassi in scadenza</option>
         <option value="critical">🚨 Domande Critiche</option>
     </select>
 
@@ -86,7 +88,19 @@
             }
         }
 
+        // Ricorda le ultime scelte (se lo storage non è disponibile, parte con i valori di default)
+        const CAMPI = ["db_type", "chapter", "num", "feedback", "timer"];
+        try {
+            let salvate = JSON.parse(localStorage.getItem("quiz_scelte") || "{}");
+            CAMPI.forEach(id => {
+                let sel = document.getElementById(id);
+                if ([...sel.options].some(o => o.value === salvate[id])) sel.value = salvate[id];
+            });
+            toggleChapters();
+        } catch (e) {}
+
         function sendData() {
+            try { localStorage.setItem("quiz_scelte", JSON.stringify(Object.fromEntries(CAMPI.map(id => [id, document.getElementById(id).value])))); } catch (e) {}
             let data = {
                 db_type: document.getElementById("db_type").value,
                 chapter: document.getElementById("chapter").value,
